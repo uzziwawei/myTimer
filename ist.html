@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body{
+      margin:0;
+      padding:20px;
+      font-family:Arial,sans-serif;
+      background:#f5f5f5;
+      display:flex;
+      justify-content:center;
+    }
+    .container{
+      width:100%;
+      max-width:420px;
+      text-align:center;
+      background:white;
+      border-radius:25px;
+      padding:25px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    }
+    .button-row{
+      display:flex;
+      gap:8px;
+      margin-bottom:30px;
+    }
+    button{
+      padding:14px;
+      border:none;
+      border-radius:12px;
+      font-size:14px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .button-row button{
+      flex:1;
+    }
+    .start{
+      background:#34A853;
+      color:white;
+    }
+    .pause{
+      background:#FBBC04;
+      color:black;
+    }
+    .reset{
+      background:#EA4335;
+      color:white;
+    }
+    .skip{
+      background:#8E24AA; /* Warna Ungu untuk tombol debug/skip */
+      color:white;
+    }
+    .back-button{
+      margin-top:30px;
+      width:100%;
+      background:#4285F4;
+      color:white;
+    }
+    .label{
+      font-size:18px;
+      color:#777;
+      margin-top:15px;
+    }
+    .timer{
+      font-size:120px;
+      font-weight:bold;
+      margin-top:5px;
+    }
+    .interval{
+      font-size:26px;
+      font-weight:bold;
+      margin-top:5px;
+      color:#202124;
+    }
+    .status{
+      margin-top:10px;
+      min-height:90px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:20px;
+      font-size:32px;
+      font-weight:bold;
+      transition:0.2s;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h2 style="margin-top: 0; margin-bottom: 5px; color: #333; font-size: 38px; font-weight: bold; letter-spacing: 1px;">IST</h2>
+  
+  <div id="subtes-name" style="font-size: 18px; color: #5f6368; font-weight: bold; margin-bottom: 25px;">
+    Subtes 1: SE (Satzergänzung)
+  </div>
+
+  <div class="label" style="margin-top: 10px;">
+    SISA WAKTU
+  </div>
+
+  <div id="timer" class="timer" style="font-size: 130px; margin-top: 5px; margin-bottom: 5px; line-height: 0.9;">
+    06:00
+  </div>
+
+  <div class="label" style="margin-top: 10px;">
+    PROGRESS
+  </div>
+
+  <div id="interval" class="interval" style="margin-top: 0px; margin-bottom: 25px;">
+    Subtes 1 / 9
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <div class="button-row" style="margin-top: 10px; margin-bottom: 15px;">
+    <button class="start" onclick="startTimer()">
+      MULAI
+    </button>
+    <button class="pause" onclick="pauseTimer()">
+      PAUSE
+    </button>
+    <button class="reset" onclick="resetTimer()">
+      RESET
+    </button>
+    <button class="skip" onclick="skipSubtes()">
+      SKIP
+    </button>
+  </div>
+
+  <button class="back-button" style="margin-top: 0px;" onclick="window.location.href='index.html'">
+    ← KEMBALI
+  </button>
+
+</div>
+
+<script>
+
+// Susunan Konfigurasi Subtes IST (Subtes 9 dibagi menjadi 2 part)
+const istConfig = [
+  { name: "Subtes 1: SE (Satzergänzung)", display: "Subtes 1 / 9", time: 360 },
+  { name: "Subtes 2: WA (Wortauswahl)", display: "Subtes 2 / 9", time: 360 },
+  { name: "Subtes 3: AN (Analogien)", display: "Subtes 3 / 9", time: 420 },
+  { name: "Subtes 4: GE (Gemeinsamkeiten)", display: "Subtes 4 / 9", time: 480 },
+  { name: "Subtes 5: RA (Rechenaufgaben)", display: "Subtes 5 / 9", time: 600 },
+  { name: "Subtes 6: ZR (Zahlenreihen)", display: "Subtes 6 / 9", time: 600 },
+  { name: "Subtes 7: FA (Figurenauswahl)", display: "Subtes 7 / 9", time: 420 },
+  { name: "Subtes 8: WU (Würfelaufgaben)", display: "Subtes 8 / 9", time: 540 },
+  { name: "Subtes 9 Part 1: ME (Menghafal)", display: "Subtes 9 / 9 (Part 1)", time: 180 },
+  { name: "Subtes 9 Part 2: ME (Menjawab)", display: "Subtes 9 / 9 (Part 2)", time: 360 }
+];
+
+let currentIndex = 0;
+let currentSecond = istConfig[currentIndex].time;
+
+let running = false;
+let paused = false;
+let loop;
+
+function formatTime(seconds) {
+  let m = Math.floor(seconds / 60).toString().padStart(2, '0');
+  let s = (seconds % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function updateDisplay(){
+  document.getElementById("timer").innerText = formatTime(currentSecond);
+  document.getElementById("subtes-name").innerText = istConfig[currentIndex].name;
+  document.getElementById("interval").innerText = istConfig[currentIndex].display;
+}
+
+function showStatus(text,bg,color){
+  const s = document.getElementById("status");
+  s.innerText = text;
+  s.style.background = bg;
+  s.style.color = color;
+}
+
+function clearStatus(){
+  const s = document.getElementById("status");
+  s.innerText = "";
+  s.style.background = "white";
+}
+
+function startTimer(){
+  if(running) return;
+
+  running = true;
+  paused = false;
+
+  showStatus("MULAI", "#34A853", "white");
+
+  setTimeout(() => {
+    clearStatus();
+    startLoop();
+  }, 1000);
+}
+
+function startLoop(){
+  updateDisplay();
+
+  loop = setInterval(() => {
+    if(paused) return;
+
+    currentSecond--;
+    updateDisplay();
+
+    if(currentSecond <= 0){
+      clearInterval(loop);
+      running = false;
+
+      showStatus("BERHENTI", "#EA4335", "white");
+
+      setTimeout(() => {
+        clearStatus();
+        goToNextSubtes();
+      }, 1000);
+    }
+  }, 1000);
+}
+
+// Fungsi internal untuk memindahkan subtes secara otomatis setelah BERHENTI selesai
+function goToNextSubtes() {
+  if (currentIndex < istConfig.length - 1) {
+    currentIndex++;
+    currentSecond = istConfig[currentIndex].time;
+    updateDisplay(); // Standby, menunggu klik MULAI lagi
+  } else {
+    showStatus("SELESAI", "#4285F4", "white");
+  }
+}
+
+// FUNGSI KHUSUS UNTUK TOMBOL SKIP (DEBUGGING)
+function skipSubtes() {
+  clearInterval(loop);
+  running = false;
+  paused = false;
+  clearStatus();
+  
+  if (currentIndex < istConfig.length - 1) {
+    currentIndex++;
+    currentSecond = istConfig[currentIndex].time;
+    updateDisplay();
+  } else {
+    showStatus("SELESAI", "#4285F4", "white");
+  }
+}
+
+function pauseTimer(){
+  if(!running) return;
+
+  paused = !paused;
+
+  if(paused){
+    showStatus("PAUSE", "#9AA0A6", "white");
+  }else{
+    clearStatus();
+  }
+}
+
+function resetTimer(){
+  clearInterval(loop);
+  running = false;
+  paused = false;
+
+  currentIndex = 0;
+  currentSecond = istConfig[currentIndex].time;
+
+  updateDisplay();
+  clearStatus();
+}
+
+updateDisplay();
+
+</script>
+
+</body>
+</html>
