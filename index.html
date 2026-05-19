@@ -2,17 +2,101 @@
 <html>
 
 <head>
+
 <title>PsychoTimer</title>
+
+<style>
+
+body{
+  font-family:Arial;
+  background:#f5f5f5;
+  text-align:center;
+  padding:30px;
+}
+
+h1{
+  margin-bottom:5px;
+}
+
+.subtitle{
+  color:gray;
+  margin-bottom:40px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:15px;
+
+  max-width:500px;
+
+  margin:auto;
+}
+
+/* CARD */
+.card{
+
+  background:white;
+
+  padding:25px 10px;
+
+  border-radius:20px;
+
+  font-weight:bold;
+
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+
+  cursor:pointer;
+}
+
+</style>
+
 </head>
 
 <body>
 
 <h1>PSYCHOTIMER</h1>
 
-<button onclick="window.location.href='kraepelin.html'">
-KRAEPELIN
-</button>
+<div class="subtitle">
+Professional Psychological Testing Assistant
+</div>
+
+<div class="grid">
+
+  <div class="card"
+       onclick="window.location.href='cfit3a.html'">
+    CFIT 3A
+  </div>
+
+  <div class="card"
+       onclick="window.location.href='kraepelin.html'">
+    KRAEPELIN
+  </div>
+
+  <div class="card"
+       onclick="window.location.href='epps.html'">
+    EPPS
+  </div>
+
+  <div class="card"
+       onclick="window.location.href='wartegg.html'">
+    WARTEGG
+  </div>
+
+  <div class="card"
+       onclick="window.location.href='baum.html'">
+    BAUM
+  </div>
+
+  <div class="card"
+       onclick="window.location.href='dap.html'">
+    DAP
+  </div>
+
+</div>
 
 </body>
-
 </html>
