@@ -23,14 +23,14 @@
     }
     .button-row{
       display:flex;
-      gap:8px;
+      gap:10px;
       margin-bottom:30px;
     }
     button{
       padding:14px;
       border:none;
       border-radius:12px;
-      font-size:14px;
+      font-size:16px;
       font-weight:bold;
       cursor:pointer;
     }
@@ -47,10 +47,6 @@
     }
     .reset{
       background:#EA4335;
-      color:white;
-    }
-    .skip{
-      background:#8E24AA; /* Warna Ungu untuk tombol debug/skip */
       color:white;
     }
     .back-button{
@@ -137,7 +133,7 @@
 
 <script>
 
-// Susunan Konfigurasi Subtes IST (Subtes 9 dibagi menjadi 2 part)
+// Susunan Konfigurasi Subtes IST dengan Nama ME yang Seragam
 const istConfig = [
   { name: "Subtes 1: SE (Satzergänzung)", display: "Subtes 1 / 9", time: 360 },
   { name: "Subtes 2: WA (Wortauswahl)", display: "Subtes 2 / 9", time: 360 },
@@ -147,8 +143,8 @@ const istConfig = [
   { name: "Subtes 6: ZR (Zahlenreihen)", display: "Subtes 6 / 9", time: 600 },
   { name: "Subtes 7: FA (Figurenauswahl)", display: "Subtes 7 / 9", time: 420 },
   { name: "Subtes 8: WU (Würfelaufgaben)", display: "Subtes 8 / 9", time: 540 },
-  { name: "Subtes 9 Part 1: ME (Merkaufgaben)", display: "Subtes 9 / 9 (Part 1)", time: 180 },
-  { name: "Subtes 9 Part 2: ME (Merkaufgaben)", display: "Subtes 9 / 9 (Part 2)", time: 360 }
+  { name: "Subtes 9: ME (Merkaufgaben) - Part 1", display: "Subtes 9 / 9 (Part 1)", time: 180 },
+  { name: "Subtes 9: ME (Merkaufgaben) - Part 2", display: "Subtes 9 / 9 (Part 2)", time: 360 }
 ];
 
 let currentIndex = 0;
@@ -220,28 +216,11 @@ function startLoop(){
   }, 1000);
 }
 
-// Fungsi internal untuk memindahkan subtes secara otomatis setelah BERHENTI selesai
 function goToNextSubtes() {
   if (currentIndex < istConfig.length - 1) {
     currentIndex++;
     currentSecond = istConfig[currentIndex].time;
-    updateDisplay(); // Standby, menunggu klik MULAI lagi
-  } else {
-    showStatus("SELESAI", "#4285F4", "white");
-  }
-}
-
-// FUNGSI KHUSUS UNTUK TOMBOL SKIP (DEBUGGING)
-function skipSubtes() {
-  clearInterval(loop);
-  running = false;
-  paused = false;
-  clearStatus();
-  
-  if (currentIndex < istConfig.length - 1) {
-    currentIndex++;
-    currentSecond = istConfig[currentIndex].time;
-    updateDisplay();
+    updateDisplay(); // Tampilan otomatis berubah bersiap ke subtes selanjutnya, menunggu tombol MULAI
   } else {
     showStatus("SELESAI", "#4285F4", "white");
   }
