@@ -1,124 +1,119 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-<title>PsychoTimer</title>
-  
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  
-<style>
-
-body{
-  font-family:Arial;
-  background:#f5f5f5;
-  text-align:center;
-  padding:30px;
-}
-
-h1{
-  margin-bottom:5px;
-}
-
-.subtitle{
-  color:gray;
-  margin-bottom:40px;
-}
-
-/* GRID */
-.grid{
-  display:grid;
-
-  grid-template-columns:repeat(3,1fr);
-
-  gap:15px;
-
-  max-width:500px;
-
-  margin:auto;
-}
-
-/* CARD */
-.card{
-
-  background:white;
-
-  padding:25px 10px;
-
-  border-radius:20px;
-
-  font-weight:bold;
-
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
-
-  cursor:pointer;
-}
-
-</style>
-
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 90vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      background: white;
+      border-radius: 25px;
+      padding: 30px 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+      margin-bottom: 50px; /* Memberi ruang agar tidak tertutup footer */
+    }
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #202124;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .subtitle {
+      color: #5f6368;
+      font-size: 14px;
+      margin-bottom: 30px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    .menu-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .menu-button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #4285F4;
+      color: white;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .menu-button:active {
+      background: #357ae8;
+      transform: scale(0.98);
+    }
+    /* Style khusus untuk sekat kategori jika diperlukan */
+    .section-label {
+      text-align: left;
+      font-size: 12px;
+      color: #70757a;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    /* Style Footer Permanen di Bawah Layar */
+    .footer-bottom {
+      position: fixed;
+      bottom: 15px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      color: #b2b2b2;
+      font-family: Arial, sans-serif;
+      letter-spacing: 0.5px;
+      pointer-events: none;
+    }
+  </style>
 </head>
-
 <body>
 
-<h1>PSYCHOTIMER</h1>
+<div class="container">
 
-<div class="subtitle">
-Professional Psychological Testing Assistant
+  <h1>PSYCHOLOGY TIMER</h1>
+  <div class="subtitle">PANEL KONTROL ALAT TES</div>
+
+  <div class="menu-group">
+    
+    <div class="section-label">Tes Inteligensi & Bakat</div>
+    <button class="menu-button" onclick="window.location.href='cfit3a.html'">CFIT 3A</button>
+    <button class="menu-button" onclick="window.location.href='ist.html'">IST</button>
+    <button class="menu-button" onclick="window.location.href='spmapm.html'">SPM / APM</button>
+    
+    <div class="section-label">Tes Kepribadian & Grafis</div>
+    <button class="menu-button" onclick="window.location.href='wartegg.html'">WARTEGG</button>
+    <button class="menu-button" onclick="window.location.href='baum.html'">BAUM</button>
+    <button class="menu-button" onclick="window.location.href='dap.html'">DAP</button>
+    <button class="menu-button" onclick="window.location.href='htp.html'">HTP</button>
+
+  </div>
+
 </div>
 
-<div class="grid">
-
-  <div class="card"
-       onclick="window.location.href='cfit3a.html'">
-    CFIT 3A
-  </div>
-
-  <div class="card"
-       onclick="window.location.href='kraepelin.html'">
-    KRAEPELIN
-  </div>
-
-  <div class="card"
-       onclick="window.location.href='epps.html'">
-    EPPS
-  </div>
-
-  <div class="card"
-       onclick="window.location.href='wartegg.html'">
-    WARTEGG
-  </div>
-
-  <div class="card"
-       onclick="window.location.href='baum.html'">
-    BAUM
-  </div>
-
-  <div class="card"
-       onclick="window.location.href='dap.html'">
-    DAP
-  </div>
-
-<div class="card"
-       onclick="window.location.href='htp.html'">
-    HTP
-  </div>
-  
-  <div class="card"
-       onclick="window.location.href='ist.html'">
-    IST
-  </div>
-
-<div class="card"
-       onclick="window.location.href='spmapm.html'">
-    SPM/APM
-  </div>
-  
+<div class="footer-bottom">
+  © 2026 by Uzzi
 </div>
 
-<div class="footer">
-    by <span>Uzzi.</span>
-    <p>Thanks me later 😎</p>
-  </div>
-  
 </body>
 </html>
