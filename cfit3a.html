@@ -21,15 +21,10 @@
       padding:25px;
       box-shadow:0 4px 15px rgba(0,0,0,0.1);
     }
-    .button-row, .adjust-row {
+    .button-row {
       display:flex;
       gap:10px;
       margin-bottom:30px;
-    }
-    .adjust-row {
-      margin-top: 5px;
-      margin-bottom: 25px;
-      gap: 12px;
     }
     button {
       padding:14px;
@@ -39,20 +34,45 @@
       font-weight:bold;
       cursor:pointer;
     }
-    .button-row button, .adjust-row button {
+    .button-row button {
       flex:1;
     }
-    /* Tombol Pengatur Waktu Custom 30 Detik */
-    .btn-adjust {
+    
+    /* Layout Khusus Timer diapit Tombol +/- */
+    .timer-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 5px;
+      margin-bottom: 25px;
+    }
+    .timer{
+      font-size: 110px; /* Sedikit dikecilkan agar muat sejajar dengan tombol di layar HP/tablet */
+      font-weight:bold;
+      line-height: 0.9;
+      color: #202124;
+      min-width: 250px; /* Menjaga jarak angka tetap stabil */
+    }
+    .btn-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
       background: #e8eaed;
       color: #3c4043;
-      padding: 10px;
-      font-size: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border: 1px solid #dadce0;
+      padding: 0;
+      user-select: none;
     }
-    .btn-adjust:active {
+    .btn-circle:active {
       background: #d2d4d7;
     }
+
     .start{
       background:#34A853;
       color:white;
@@ -75,11 +95,6 @@
       font-size:18px;
       color:#777;
       margin-top:15px;
-    }
-    .timer{
-      font-size:120px;
-      font-weight:bold;
-      margin-top:5px;
     }
     .interval{
       font-size:28px;
@@ -115,13 +130,10 @@
     SISA WAKTU
   </div>
 
-  <div id="timer" class="timer" style="font-size: 130px; margin-top: 5px; margin-bottom: 5px; line-height: 0.9;">
-    03:00
-  </div>
-
-  <div class="adjust-row">
-    <button class="btn-adjust" onclick="adjustTime(-30)">- 30 DETIK</button>
-    <button class="btn-adjust" onclick="adjustTime(30)">+ 30 DETIK</button>
+  <div class="timer-wrapper">
+    <button class="btn-circle" onclick="adjustTime(-30)">−</button>
+    <div id="timer" class="timer">03:00</div>
+    <button class="btn-circle" onclick="adjustTime(30)">+</button>
   </div>
 
   <div class="label" style="margin-top: 10px;">
@@ -158,7 +170,7 @@ const cfitConfig = [
   { name: "Subtes 1: Series", time: 180 },          
   { name: "Subtes 2: Classification", time: 240 },  
   { name: "Subtes 3: Matrices", time: 180 },        
-  { name: "Subtes 4: Topology", time: 150 } // Standar 2 Menit 30 Detik
+  { name: "Subtes 4: Topology", time: 150 } 
 ];
 
 let currentSubtesIndex = 0; 
@@ -181,10 +193,8 @@ function updateDisplay(){
 }
 
 function adjustTime(amount) {
-  // Tombol tidak merespon jika timer sudah berjalan berjalan
   if (running) return; 
   
-  // Pastikan waktu tidak dikurangi sampai minus (minimal 0 detik)
   if (currentSecond + amount >= 0) {
     currentSecond += amount;
     updateDisplay();
@@ -238,7 +248,7 @@ function startLoop(){
 
         if (currentSubtesIndex < 3) {
           currentSubtesIndex++;
-          currentSecond = cfitConfig[currentSubtesIndex].time; // Otomatis balik ke default subtes baru
+          currentSecond = cfitConfig[currentSubtesIndex].time; 
           updateDisplay(); 
         } else {
           showStatus("SELESAI", "#4285F4", "white");
