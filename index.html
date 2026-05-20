@@ -6,13 +6,14 @@
   <style>
     body {
       margin: 0;
-      padding: 20px;
+      padding: 15px;
       font-family: Arial, sans-serif;
       background: #f5f5f5;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 90vh;
+      min-height: 100vh;
+      box-sizing: border-box;
     }
     .container {
       width: 100%;
@@ -20,62 +21,72 @@
       text-align: center;
       background: white;
       border-radius: 25px;
-      padding: 30px 25px;
+      padding: 20px 20px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       box-sizing: border-box;
-      margin-bottom: 50px; /* Ruang agar tidak mentok footer */
     }
     h1 {
       margin-top: 0;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       color: #202124;
-      font-size: 32px;
+      font-size: 28px;
       font-weight: bold;
       letter-spacing: 0.5px;
     }
     .subtitle {
       color: #5f6368;
-      font-size: 13px;
-      margin-bottom: 30px;
-      font-style: italic; /* Format Italic sesuai request */
+      font-size: 12px;
+      margin-bottom: 20px;
+      font-style: italic;
       font-weight: normal;
     }
-    .menu-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    /* Layout Grid 2 Kolom */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
     .menu-button {
       width: 100%;
-      padding: 16px;
+      padding: 14px 8px; /* Lebih ramping agar pas di layar */
       border: none;
       border-radius: 12px;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: bold;
       cursor: pointer;
       background: #4285F4;
       color: white;
       transition: background 0.2s, transform 0.1s;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
     }
     .menu-button:active {
       background: #357ae8;
       transform: scale(0.98);
     }
+    /* Mengatur tombol Kraepelin agar melintang penuh di bawah jika jumlah ganjil */
+    .full-width {
+      grid-column: span 2;
+    }
     .section-label {
+      grid-column: span 2;
       text-align: left;
-      font-size: 12px;
+      font-size: 11px;
       color: #70757a;
       font-weight: bold;
-      margin-top: 12px;
-      margin-bottom: 4px;
+      margin-top: 10px;
+      margin-bottom: 2px;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
-    /* Style Footer di Dasar Layar */
+    /* Style Footer Terkunci di Dasar Layar */
     .footer-bottom {
       position: fixed;
-      bottom: 15px;
+      bottom: 12px;
       left: 0;
       width: 100%;
       text-align: center;
@@ -94,7 +105,7 @@
   <h1>TESTTIMER</h1>
   <div class="subtitle">Your Professional Psychological Testing Assistant</div>
 
-  <div class="menu-group">
+  <div class="menu-grid">
     
     <div class="section-label">Tes Inteligensi & Bakat</div>
     <button class="menu-button" onclick="window.location.href='cfit3a.html'">CFIT 3A</button>
@@ -109,7 +120,7 @@
     <button class="menu-button" onclick="window.location.href='htp.html'">HTP</button>
 
     <div class="section-label">Tes Sikap Kerja</div>
-    <button class="menu-button" onclick="window.location.href='kraepelin.html'">KRAEPELIN</button>
+    <button class="menu-button full-width" onclick="window.location.href='kraepelin.html'">KRAEPELIN</button>
 
   </div>
 
