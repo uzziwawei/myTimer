@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body{
+      margin:0;
+      padding:20px;
+      font-family:Arial,sans-serif;
+      background:#f5f5f5;
+      display:flex;
+      justify-content:center;
+    }
+    .container{
+      width:100%;
+      max-width:420px;
+      text-align:center;
+      background:white;
+      border-radius:25px;
+      padding:25px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    }
+    .button-row{
+      display:flex;
+      gap:8px;
+      margin-bottom:30px;
+    }
+    button{
+      padding:14px;
+      border:none;
+      border-radius:12px;
+      font-size:14px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .button-row button{
+      flex:1;
+    }
+    .start{
+      background:#34A853;
+      color:white;
+    }
+    .pause{
+      background:#FBBC04;
+      color:black;
+    }
+    .reset{
+      background:#EA4335;
+      color:white;
+    }
+    .add-time{
+      background:#8E24AA;
+      color:white;
+    }
+    .back-button{
+      margin-top:30px;
+      width:100%;
+      background:#4285F4;
+      color:white;
+    }
+    .label{
+      font-size:18px;
+      color:#777;
+      margin-top:15px;
+    }
+    .timer{
+      font-size:120px;
+      font-weight:bold;
+      margin-top:5px;
+    }
+    .status{
+      margin-top:10px;
+      min-height:90px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:20px;
+      font-size:32px;
+      font-weight:bold;
+      transition:0.2s;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h2 style="margin-top: 0; margin-bottom: 25px; color: #333; font-size: 38px; font-weight: bold; letter-spacing: 1px;">BAUM</h2>
+
+  <div class="label" style="margin-top: 10px;">
+    SISA WAKTU
+  </div>
+
+  <div id="timer" class="timer" style="font-size: 130px; margin-top: 5px; margin-bottom: 35px; line-height: 0.9;">
+    05:00
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <div class="button-row" style="margin-top: 10px; margin-bottom: 15px;">
+    <button class="start" onclick="startTimer()">
+      MULAI
+    </button>
+    <button class="pause" onclick="pauseTimer()">
+      PAUSE
+    </button>
+    <button class="reset" onclick="resetTimer()">
+      RESET
+    </button>
+    <button class="add-time" onclick="addCustomMinutes()">
+      +3 MIN
+    </button>
+  </div>
+
+  <button class="back-button" style="margin-top: 0px;" onclick="window.location.href='index.html'">
+    ← KEMBALI
+  </button>
+
+</div>
+
+<script>
+
+let defaultTime = 300;
+let currentSecond = defaultTime;
+
+let running = false;
+let paused = false;
+let loop;
+
+function formatTime(seconds) {
+  let m = Math.floor(seconds / 60).toString().padStart(2, '0');
+  let s = (seconds % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function updateDisplay(){
+  document.getElementById("timer").innerText = formatTime(currentSecond);
+}
+
+function showStatus(text,bg,color){
+  const s = document.getElementById("status");
+  s.innerText = text;
+  s.style.background = bg;
+  s.style.color = color;
+}
+
+function clearStatus(){
+  const s = document.getElementById("status");
+  s.innerText = "";
+  s.style.background = "white";
+}
+
+function startTimer(){
+  if(running) return;
+
+  running = true;
+  paused = false;
+
+  showStatus("MULAI", "#34A853", "white");
+
+  setTimeout(() => {
+    clearStatus();
+    startLoop();
+  }, 1000);
+}
+
+function startLoop(){
+  updateDisplay();
+
+  loop = setInterval(() => {
+    if(paused) return;
+
+    currentSecond--;
+    updateDisplay();
+
+    if(currentSecond <= 0){
+      clearInterval(loop);
+      running = false;
+      showStatus("BERHENTI", "#EA4335", "white");
+    }
+  }, 1000);
+}
+
+function pauseTimer(){
+  if(!running) return;
+
+  paused = !paused;
+
+  if(paused){
+    showStatus("PAUSE", "#9AA0A6", "white");
+  }else{
+    clearStatus();
+  }
+}
+
+function resetTimer(){
+  clearInterval(loop);
+  running = false;
+  paused = false;
+
+  currentSecond = defaultTime;
+
+  updateDisplay();
+  clearStatus();
+}
+
+function addCustomMinutes() {
+  currentSecond += 180;
+  updateDisplay();
+}
+
+updateDisplay();
+
+</script>
+
+</body>
+</html>
