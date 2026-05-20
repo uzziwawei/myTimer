@@ -21,12 +21,17 @@
       padding:25px;
       box-shadow:0 4px 15px rgba(0,0,0,0.1);
     }
-    .button-row{
+    .button-row, .adjust-row {
       display:flex;
       gap:10px;
       margin-bottom:30px;
     }
-    button{
+    .adjust-row {
+      margin-top: 5px;
+      margin-bottom: 25px;
+      gap: 12px;
+    }
+    button {
       padding:14px;
       border:none;
       border-radius:12px;
@@ -34,8 +39,19 @@
       font-weight:bold;
       cursor:pointer;
     }
-    .button-row button{
+    .button-row button, .adjust-row button {
       flex:1;
+    }
+    /* Tombol Pengatur Waktu Custom 30 Detik */
+    .btn-adjust {
+      background: #e8eaed;
+      color: #3c4043;
+      padding: 10px;
+      font-size: 15px;
+      border: 1px solid #dadce0;
+    }
+    .btn-adjust:active {
+      background: #d2d4d7;
     }
     .start{
       background:#34A853;
@@ -103,6 +119,11 @@
     03:00
   </div>
 
+  <div class="adjust-row">
+    <button class="btn-adjust" onclick="adjustTime(-30)">- 30 DETIK</button>
+    <button class="btn-adjust" onclick="adjustTime(30)">+ 30 DETIK</button>
+  </div>
+
   <div class="label" style="margin-top: 10px;">
     PROGRESS
   </div>
@@ -133,22 +154,20 @@
 
 <script>
 
-// Data konfigurasi tiap subtes CFIT 3A
 const cfitConfig = [
-  { name: "Subtes 1: Series", time: 180 },          // 3 Menit
-  { name: "Subtes 2: Classification", time: 240 },  // 4 Menit
-  { name: "Subtes 3: Matrices", time: 180 },        // 3 Menit
-  { name: "Subtes 4: Topology", time: 150 }         // 2.5 Menit
+  { name: "Subtes 1: Series", time: 180 },          
+  { name: "Subtes 2: Classification", time: 240 },  
+  { name: "Subtes 3: Matrices", time: 180 },        
+  { name: "Subtes 4: Topology", time: 150 } // Standar 2 Menit 30 Detik
 ];
 
-let currentSubtesIndex = 0; // Mulai dari Subtes 1 (index 0)
+let currentSubtesIndex = 0; 
 let currentSecond = cfitConfig[currentSubtesIndex].time;
 
 let running = false;
 let paused = false;
 let loop;
 
-// Fungsi mengubah detik menjadi format MM:SS (Misal 180 -> 03:00)
 function formatTime(seconds) {
   let m = Math.floor(seconds / 60).toString().padStart(2, '0');
   let s = (seconds % 60).toString().padStart(2, '0');
@@ -159,6 +178,17 @@ function updateDisplay(){
   document.getElementById("timer").innerText = formatTime(currentSecond);
   document.getElementById("subtes-name").innerText = cfitConfig[currentSubtesIndex].name;
   document.getElementById("interval").innerText = `Subtes ${currentSubtesIndex + 1} / 4`;
+}
+
+function adjustTime(amount) {
+  // Tombol tidak merespon jika timer sudah berjalan berjalan
+  if (running) return; 
+  
+  // Pastikan waktu tidak dikurangi sampai minus (minimal 0 detik)
+  if (currentSecond + amount >= 0) {
+    currentSecond += amount;
+    updateDisplay();
+  }
 }
 
 function showStatus(text,bg,color){
@@ -201,20 +231,16 @@ function startLoop(){
       clearInterval(loop);
       running = false;
 
-      // Efek Status BERHENTI (Warna Merah)
       showStatus("BERHENTI", "#EA4335", "white");
 
-      // Menunggu 1 detik (sesaat saja), lalu siapkan subtes berikutnya
       setTimeout(() => {
         clearStatus();
 
         if (currentSubtesIndex < 3) {
-          // Naik ke subtes berikutnya
           currentSubtesIndex++;
-          currentSecond = cfitConfig[currentSubtesIndex].time;
-          updateDisplay(); // Tampilan berubah otomatis ke subtes baru, status kosong, nunggu klik MULAI
+          currentSecond = cfitConfig[currentSubtesIndex].time; // Otomatis balik ke default subtes baru
+          updateDisplay(); 
         } else {
-          // Jika sudah selesai Subtes 4
           showStatus("SELESAI", "#4285F4", "white");
         }
       }, 1000);
@@ -246,7 +272,6 @@ function resetTimer(){
   clearStatus();
 }
 
-// Inisialisasi tampilan awal saat halaman dibuka
 updateDisplay();
 
 </script>
