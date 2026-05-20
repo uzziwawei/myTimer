@@ -23,21 +23,22 @@
       padding: 30px 25px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       box-sizing: border-box;
-      margin-bottom: 50px; /* Memberi ruang agar tidak tertutup footer */
+      margin-bottom: 50px; /* Ruang agar tidak mentok footer */
     }
     h1 {
       margin-top: 0;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       color: #202124;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: bold;
+      letter-spacing: 0.5px;
     }
     .subtitle {
       color: #5f6368;
-      font-size: 14px;
+      font-size: 13px;
       margin-bottom: 30px;
-      font-weight: bold;
-      letter-spacing: 0.5px;
+      font-style: italic; /* Format Italic sesuai request */
+      font-weight: normal;
     }
     .menu-group {
       display: flex;
@@ -61,18 +62,17 @@
       background: #357ae8;
       transform: scale(0.98);
     }
-    /* Style khusus untuk sekat kategori jika diperlukan */
     .section-label {
       text-align: left;
       font-size: 12px;
       color: #70757a;
       font-weight: bold;
-      margin-top: 10px;
-      margin-bottom: 5px;
+      margin-top: 12px;
+      margin-bottom: 4px;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
-    /* Style Footer Permanen di Bawah Layar */
+    /* Style Footer di Dasar Layar */
     .footer-bottom {
       position: fixed;
       bottom: 15px;
@@ -91,8 +91,8 @@
 
 <div class="container">
 
-  <h1>PSYCHOLOGY TIMER</h1>
-  <div class="subtitle">PANEL KONTROL ALAT TES</div>
+  <h1>TESTTIMER</h1>
+  <div class="subtitle">Your Professional Psychological Testing Assistant</div>
 
   <div class="menu-group">
     
@@ -102,10 +102,14 @@
     <button class="menu-button" onclick="window.location.href='spmapm.html'">SPM / APM</button>
     
     <div class="section-label">Tes Kepribadian & Grafis</div>
+    <button class="menu-button" onclick="window.location.href='epps.html'">EPPS</button>
     <button class="menu-button" onclick="window.location.href='wartegg.html'">WARTEGG</button>
     <button class="menu-button" onclick="window.location.href='baum.html'">BAUM</button>
     <button class="menu-button" onclick="window.location.href='dap.html'">DAP</button>
     <button class="menu-button" onclick="window.location.href='htp.html'">HTP</button>
+
+    <div class="section-label">Tes Sikap Kerja</div>
+    <button class="menu-button" onclick="window.location.href='kraepelin.html'">KRAEPELIN</button>
 
   </div>
 
