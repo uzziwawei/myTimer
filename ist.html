@@ -228,6 +228,72 @@ function startTimer(){
 
   showStatus("MULAI", "#34A853", "white");
 
-  setTimeout(()
+  setTimeout(() => {
+    clearStatus();
+    startLoop();
+  }, 1000);
+}
 
-             
+function startLoop(){
+  updateDisplay();
+
+  loop = setInterval(() => {
+    if(paused) return;
+
+    currentSecond--;
+    updateDisplay();
+
+    if(currentSecond <= 0){
+      clearInterval(loop);
+      running = false;
+
+      showStatus("BERHENTI", "#EA4335", "white");
+
+      setTimeout(() => {
+        clearStatus();
+        goToNextSubtes();
+      }, 1000);
+    }
+  }, 1000);
+}
+
+function goToNextSubtes() {
+  if (currentIndex < istConfig.length - 1) {
+    currentIndex++;
+    currentSecond = istConfig[currentIndex].time;
+    updateDisplay(); 
+  } else {
+    showStatus("SELESAI", "#4285F4", "white");
+  }
+}
+
+function pauseTimer(){
+  if(!running) return;
+
+  paused = !paused;
+
+  if(paused){
+    showStatus("PAUSE", "#9AA0A6", "white");
+  }else{
+    clearStatus();
+  }
+}
+
+function resetTimer(){
+  clearInterval(loop);
+  running = false;
+  paused = false;
+
+  currentIndex = 0;
+  currentSecond = istConfig[currentIndex].time;
+
+  updateDisplay();
+  clearStatus();
+}
+
+updateDisplay();
+
+</script>
+
+</body>
+</html>
