@@ -21,12 +21,12 @@
       padding:25px;
       box-shadow:0 4px 15px rgba(0,0,0,0.1);
     }
-    .button-row{
+    .button-row {
       display:flex;
       gap:10px;
       margin-bottom:30px;
     }
-    button{
+    button {
       padding:14px;
       border:none;
       border-radius:12px;
@@ -34,9 +34,45 @@
       font-weight:bold;
       cursor:pointer;
     }
-    .button-row button{
+    .button-row button {
       flex:1;
     }
+    
+    /* Layout Khusus Timer diapit Tombol +/- */
+    .timer-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 5px;
+      margin-bottom: 25px;
+    }
+    .timer{
+      font-size: 110px;
+      font-weight:bold;
+      line-height: 0.9;
+      color: #202124;
+      min-width: 250px;
+    }
+    .btn-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #e8eaed;
+      color: #3c4043;
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #dadce0;
+      padding: 0;
+      user-select: none;
+    }
+    .btn-circle:active {
+      background: #d2d4d7;
+    }
+
     .start{
       background:#34A853;
       color:white;
@@ -59,11 +95,6 @@
       font-size:18px;
       color:#777;
       margin-top:15px;
-    }
-    .timer{
-      font-size:120px;
-      font-weight:bold;
-      margin-top:5px;
     }
     .interval{
       font-size:26px;
@@ -99,8 +130,10 @@
     SISA WAKTU
   </div>
 
-  <div id="timer" class="timer" style="font-size: 130px; margin-top: 5px; margin-bottom: 5px; line-height: 0.9;">
-    06:00
+  <div class="timer-wrapper">
+    <button class="btn-circle" onclick="adjustTime(-30)">−</button>
+    <div id="timer" class="timer">06:00</div>
+    <button class="btn-circle" onclick="adjustTime(30)">+</button>
   </div>
 
   <div class="label" style="margin-top: 10px;">
@@ -133,7 +166,6 @@
 
 <script>
 
-// Susunan Konfigurasi Subtes IST dengan Nama ME yang Seragam
 const istConfig = [
   { name: "Subtes 1: SE (Satzergänzung)", display: "Subtes 1 / 9", time: 360 },
   { name: "Subtes 2: WA (Wortauswahl)", display: "Subtes 2 / 9", time: 360 },
@@ -166,6 +198,15 @@ function updateDisplay(){
   document.getElementById("interval").innerText = istConfig[currentIndex].display;
 }
 
+function adjustTime(amount) {
+  if (running) return; 
+  
+  if (currentSecond + amount >= 0) {
+    currentSecond += amount;
+    updateDisplay();
+  }
+}
+
 function showStatus(text,bg,color){
   const s = document.getElementById("status");
   s.innerText = text;
@@ -187,72 +228,4 @@ function startTimer(){
 
   showStatus("MULAI", "#34A853", "white");
 
-  setTimeout(() => {
-    clearStatus();
-    startLoop();
-  }, 1000);
-}
-
-function startLoop(){
-  updateDisplay();
-
-  loop = setInterval(() => {
-    if(paused) return;
-
-    currentSecond--;
-    updateDisplay();
-
-    if(currentSecond <= 0){
-      clearInterval(loop);
-      running = false;
-
-      showStatus("BERHENTI", "#EA4335", "white");
-
-      setTimeout(() => {
-        clearStatus();
-        goToNextSubtes();
-      }, 1000);
-    }
-  }, 1000);
-}
-
-function goToNextSubtes() {
-  if (currentIndex < istConfig.length - 1) {
-    currentIndex++;
-    currentSecond = istConfig[currentIndex].time;
-    updateDisplay(); // Tampilan otomatis berubah bersiap ke subtes selanjutnya, menunggu tombol MULAI
-  } else {
-    showStatus("SELESAI", "#4285F4", "white");
-  }
-}
-
-function pauseTimer(){
-  if(!running) return;
-
-  paused = !paused;
-
-  if(paused){
-    showStatus("PAUSE", "#9AA0A6", "white");
-  }else{
-    clearStatus();
-  }
-}
-
-function resetTimer(){
-  clearInterval(loop);
-  running = false;
-  paused = false;
-
-  currentIndex = 0;
-  currentSecond = istConfig[currentIndex].time;
-
-  updateDisplay();
-  clearStatus();
-}
-
-updateDisplay();
-
-</script>
-
-</body>
-</html>
+  setTimeout(()
